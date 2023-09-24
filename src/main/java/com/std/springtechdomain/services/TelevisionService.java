@@ -5,7 +5,6 @@ import com.std.springtechdomain.dto.TelevisionInputDto;
 import com.std.springtechdomain.exceptions.RecordNotFoundException;
 import com.std.springtechdomain.models.Television;
 import com.std.springtechdomain.repositories.TelevisionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -15,11 +14,11 @@ import java.util.Optional;
 
 @Service
 public class TelevisionService {
-    private final TelevisionRepository repository;
+    private final TelevisionRepository tvRepository;
 
-    @Autowired
+
     public TelevisionService(TelevisionRepository repository) {
-        this.repository = repository;
+        this.tvRepository = repository;
     }
 
     public TelevisionDto createTv(TelevisionInputDto televisionDto) {
@@ -45,14 +44,14 @@ public class TelevisionService {
 
         // Na de call hieronder krijgt de television object automatisch een ID(=unieke key).
         // Dat is het effect van "save" actie.
-        repository.save(television);
+        tvRepository.save(television);
 
         return convertToDto(television);
     }
 
 
-    public List<TelevisionDto> getTvsByBrand(Optional<String> brand) {
-        List<Television> allTvs = repository.findAllTelevisionsByBrandEqualsIgnoreCase(brand);
+    public List<TelevisionDto> getTvsByBrand(String brand) {
+        List<Television> allTvs = tvRepository.findAllTelevisionsByBrandEqualsIgnoreCase(brand);
         List<TelevisionDto> allDtos = new ArrayList<>();
 
         for (Television tv : allTvs) {
@@ -65,34 +64,35 @@ public class TelevisionService {
 
     public List<TelevisionDto> getAllTvs() {
 
-        List<Television> televisions = repository.findAll();
+        List<Television> televisions = tvRepository.findAll();
         List<TelevisionDto> televisionDtos = new ArrayList<>();
 
         for (Television tv : televisions) {
 
-            TelevisionDto tvDto = new TelevisionDto();
+            TelevisionDto tvDto = convertToDto(tv);
+            televisionDtos.add(tvDto);
 
             // Dit is allemaal overbodig want er is een convertToDto methode die het regelt.
             // Ik laat het erin zitten voor leerdoeleinden want het werkt.
-            tvDto.id = tv.getId();
-            tvDto.type = tv.getType();
-            tvDto.brand = tv.getBrand();
-            tvDto.name = tv.getName();
-            tvDto.price = tv.getPrice();
-            tvDto.availableSize = tv.getAvailableSize();
-            tvDto.refreshRate = tv.getRefreshRate();
-            tvDto.screenType = tv.getScreenType();
-            tvDto.screenQuality = tv.getScreenQuality();
-            tvDto.smartTv = tv.getSmartTv();
-            tvDto.wifi = tv.getWifi();
-            tvDto.voiceControl = tv.getVoiceControl();
-            tvDto.hdr = tv.getHdr();
-            tvDto.bluetooth = tv.getBluetooth();
-            tvDto.ambiLight = tv.getAmbiLight();
-            tvDto.originalStock = tv.getOriginalStock();
-            tvDto.sold = tv.getSold();
+//            tvDto.id = tv.getId();
+//            tvDto.type = tv.getType();
+//            tvDto.brand = tv.getBrand();
+//            tvDto.name = tv.getName();
+//            tvDto.price = tv.getPrice();
+//            tvDto.availableSize = tv.getAvailableSize();
+//            tvDto.refreshRate = tv.getRefreshRate();
+//            tvDto.screenType = tv.getScreenType();
+//            tvDto.screenQuality = tv.getScreenQuality();
+//            tvDto.smartTv = tv.getSmartTv();
+//            tvDto.wifi = tv.getWifi();
+//            tvDto.voiceControl = tv.getVoiceControl();
+//            tvDto.hdr = tv.getHdr();
+//            tvDto.bluetooth = tv.getBluetooth();
+//            tvDto.ambiLight = tv.getAmbiLight();
+//            tvDto.originalStock = tv.getOriginalStock();
+//            tvDto.sold = tv.getSold();
 
-            televisionDtos.add(tvDto);
+
         }
         return televisionDtos;
     }
@@ -102,24 +102,25 @@ public class TelevisionService {
     // convertToTelevision() en convertToDto()
     public TelevisionDto getTvById(Long index) {
 
-        Optional<Television> televisionOptional = repository.findById(index);
+        Optional<Television> tvOptional = tvRepository.findById(index);
 
-        if (televisionOptional.isEmpty()) {
+        if (tvOptional.isEmpty()) {
             throw new RecordNotFoundException("TV not found.");
         } else {
-            Television television = televisionOptional.get();
+            Television television = tvOptional.get();
             return convertToDto(television);
         }
     }
 
     // Wist een TV aan de hand van de index
     public void deleteTv(@RequestBody Long index) {
-        repository.deleteById(index);
+        tvRepository.deleteById(index);
     }
 
+    // Updatet een TV aan de hand van de index
     public TelevisionDto updateTV(Long index, TelevisionInputDto newTelevision) {
 
-        Optional<Television> televisionOptional = repository.findById(index);
+        Optional<Television> televisionOptional = tvRepository.findById(index);
 
         if (televisionOptional.isEmpty()) {
             throw new RecordNotFoundException("TV not found.");
@@ -144,14 +145,12 @@ public class TelevisionService {
             television.setOriginalStock(newTelevision.getOriginalStock());
             television.setSold(newTelevision.getSold());
 
-            repository.save(television);
-            return convertToDto(television);
-
-
+            Television updatedTelevision = tvRepository.save(television);
+            return convertToDto(updatedTelevision);
         }
     }
 
-    // Er gaat een DTO object in de method als parameter.
+    // Er gaat een input DTO object in de method als parameter.
     // Return is een Television object. Setters van de Television class
     // krijgen hun parameter via de getters van de TelevisionInputDto class.
     public Television convertToTelevision(TelevisionInputDto dto) {

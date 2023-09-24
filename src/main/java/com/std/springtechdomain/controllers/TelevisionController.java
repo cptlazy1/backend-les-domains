@@ -7,9 +7,9 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 
 @RestController
@@ -22,23 +22,26 @@ public class TelevisionController {
         this.televisionService = televisionService;
     }
 
+
     // Returnt alle TVs
     @GetMapping
     public ResponseEntity<List<TelevisionDto>> getAllTvs() {
         return ResponseEntity.ok().body(televisionService.getAllTvs());
     }
 
+
     // Returnt de TV op de index positie
     @GetMapping(value = "/{index}")
-    public ResponseEntity <TelevisionDto> getTv(@PathVariable("index") Long index) {
+    public ResponseEntity<TelevisionDto> getTv(@PathVariable("index") Long index) {
         return ResponseEntity.ok().body(televisionService.getTvById(index));
     }
+
+
     // Werkt niet en zorgt ervoor dat de methode om te zoeken met {index} ook niet meer werkt
 //    @GetMapping(value = "/{brand}")
-//    public ResponseEntity<List<TelevisionDto>> getTvsByBrand(@RequestParam(value = "brand", required = false) Optional<String> brand) {
+//    public ResponseEntity<List<TelevisionDto>> getTvsByBrand(@RequestParam(value = "brand", required = false) String brand) {
 //        return ResponseEntity.ok().body(televisionService.getTvsByBrand(brand));
 //    }
-
 
 
     // Maakt een TV aan
