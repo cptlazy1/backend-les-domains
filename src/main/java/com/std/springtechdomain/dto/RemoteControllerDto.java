@@ -8,6 +8,13 @@ public class RemoteControllerDto {
     public Double price;
     public Integer originalStock;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getCompatibleWith() {
         return compatibleWith;
     }
@@ -47,4 +54,5 @@ public class RemoteControllerDto {
     public void setOriginalStock(Integer originalStock) {
         this.originalStock = originalStock;
     }
+
 }

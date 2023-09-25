@@ -8,6 +8,14 @@ public class WallBracketDto {
     public String name;
     public Double price;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getSize() {
         return size;
     }

@@ -18,7 +18,12 @@ public class WallBracket {
     public WallBracket() {
     }
     // Constructor
-    public WallBracket(Long id, String size, Boolean adjustable, String name, Double price) {
+    public WallBracket(
+            Long id,
+            String size,
+            Boolean adjustable,
+            String name,
+            Double price) {
         this.id = id;
         this.size = size;
         this.adjustable = adjustable;

@@ -5,7 +5,9 @@ import com.std.springtechdomain.dto.CIModuleInputDto;
 import com.std.springtechdomain.exceptions.RecordNotFoundException;
 import com.std.springtechdomain.models.CIModule;
 import com.std.springtechdomain.repositories.CIModuleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +18,7 @@ public class CIModuleService {
 
     private final CIModuleRepository ciModuleRepository;
 
+
     public CIModuleService(CIModuleRepository CIModuleRepository) {
         this.ciModuleRepository = CIModuleRepository;
     }
@@ -25,8 +28,8 @@ public class CIModuleService {
 
         CIModule ciModule = convertToCIModule(dto);
 
-        ciModule.setType(dto.type);
         ciModule.setName(dto.name);
+        ciModule.setType(dto.type);
         ciModule.setPrice(dto.price);
 
         ciModuleRepository.save(ciModule);
@@ -61,7 +64,7 @@ public class CIModuleService {
 
 
     // delete ci module
-    public void deleteCIModule(Long index) {
+    public void deleteCIModule(@RequestBody Long index) {
         ciModuleRepository.deleteById(index);
     }
 
@@ -87,16 +90,22 @@ public class CIModuleService {
 
     // convert to ci module
     public CIModule convertToCIModule(CIModuleInputDto dto) {
+
         var ciModule = new CIModule();
+
         ciModule.setType(dto.getType());
         ciModule.setName(dto.getName());
         ciModule.setPrice(dto.getPrice());
+
         return ciModule;
     }
 
     // convert to ci module dto
     public CIModuleDto convertToCIModuleDto(CIModule ciModule) {
+
         CIModuleDto ciModuleDto = new CIModuleDto();
+
+        ciModuleDto.setId(ciModule.getId());
         ciModuleDto.setName(ciModule.getName());
         ciModuleDto.setType(ciModule.getType());
         ciModuleDto.setPrice(ciModule.getPrice());

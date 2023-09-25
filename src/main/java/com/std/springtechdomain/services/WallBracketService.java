@@ -7,7 +7,6 @@ import com.std.springtechdomain.models.WallBracket;
 import com.std.springtechdomain.repositories.WallBracketRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,20 +16,20 @@ public class WallBracketService {
 
     private final WallBracketRepository wallBracketRepository;
 
-
+    // Constructor
     public WallBracketService(WallBracketRepository wallBracketRepository) {
         this.wallBracketRepository = wallBracketRepository;
     }
 
     // Create Wall Bracket
-    public WallBracketDto createWallBracket(WallBracketInputDto wallBracketDto) {
+    public WallBracketDto createWallBracket(WallBracketInputDto dto) {
 
-        WallBracket wallBracket = convertToWallBracket(wallBracketDto);
+        WallBracket wallBracket = convertToWallBracket(dto);
 
-        wallBracket.setName(wallBracketDto.name);
-        wallBracket.setAdjustable(wallBracketDto.adjustable);
-        wallBracket.setSize(wallBracketDto.size);
-        wallBracket.setPrice(wallBracketDto.getPrice());
+        wallBracket.setName(dto.name);
+        wallBracket.setAdjustable(dto.adjustable);
+        wallBracket.setSize(dto.size);
+        wallBracket.setPrice(dto.price);
 
         wallBracketRepository.save(wallBracket);
 
@@ -106,8 +105,10 @@ public class WallBracketService {
 
     // Convert to Wall Bracket Dto
     public WallBracketDto convertToWallBracketDto(WallBracket wallBracket) {
+
         WallBracketDto wallBracketDto = new WallBracketDto();
 
+        wallBracketDto.setId(wallBracket.getId());
         wallBracketDto.setName(wallBracket.getName());
         wallBracketDto.setAdjustable(wallBracket.getAdjustable());
         wallBracketDto.setSize(wallBracket.getSize());

@@ -5,10 +5,8 @@ import com.std.springtechdomain.dto.RemoteControllerInputDto;
 import com.std.springtechdomain.exceptions.RecordNotFoundException;
 import com.std.springtechdomain.models.RemoteController;
 import com.std.springtechdomain.repositories.RemoteControllerRepository;
-import jakarta.validation.constraints.Size;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,19 +16,23 @@ public class RemoteControllerService {
 
     private final RemoteControllerRepository remoteControllerRepository;
 
+    // Constructor
     public RemoteControllerService(RemoteControllerRepository remoteControllerRepository) {
         this.remoteControllerRepository = remoteControllerRepository;
     }
 
     // create remote Controller
     public RemoteControllerDto createRemoteController(RemoteControllerInputDto dto) {
+
         RemoteController remoteController = convertToRemoteController(dto);
 
-        remoteController.setBrand(dto.brand);
-        remoteController.setBatteryType(dto.batteryType);
-        remoteController.setPrice(dto.price);
         remoteController.setCompatibleWith(dto.compatibleWith);
+        remoteController.setBatteryType(dto.batteryType);
+        remoteController.setBrand(dto.brand);
+        remoteController.setPrice(dto.price);
         remoteController.setOriginalStock(dto.originalStock);
+
+        remoteControllerRepository.save(remoteController);
 
         return convertToRemoteControllerDto(remoteController);
 
@@ -61,7 +63,6 @@ public class RemoteControllerService {
 
     }
 
-
     // delete remote controller
     public void deleteRemoteController(@RequestBody Long index) {
         remoteControllerRepository.deleteById(index);
@@ -69,6 +70,7 @@ public class RemoteControllerService {
 
     // update remote controller
     public RemoteControllerDto updateRemoteController(Long index, RemoteControllerInputDto newRemoteController) {
+
         Optional<RemoteController> remoteControllerOptional = remoteControllerRepository.findById(index);
 
         if (remoteControllerOptional.isEmpty()) {
@@ -89,9 +91,9 @@ public class RemoteControllerService {
         }
     }
 
-
     // convert to remote controller
     public RemoteController convertToRemoteController(RemoteControllerInputDto dto) {
+
         var remoteController = new RemoteController();
 
         remoteController.setBrand(dto.getBrand());
@@ -106,13 +108,15 @@ public class RemoteControllerService {
 
     // convert to remote controller dto
     public RemoteControllerDto convertToRemoteControllerDto(RemoteController remoteController) {
+
         RemoteControllerDto remoteControllerDto = new RemoteControllerDto();
 
+        remoteControllerDto.setId(remoteController.getId());
         remoteControllerDto.setBrand(remoteController.getBrand());
         remoteControllerDto.setBatteryType(remoteController.getBatteryType());
         remoteControllerDto.setPrice(remoteController.getPrice());
-        remoteControllerDto.setCompatibleWith(remoteControllerDto.getCompatibleWith());
-        remoteController.setOriginalStock(remoteController.getOriginalStock());
+        remoteControllerDto.setCompatibleWith(remoteController.getCompatibleWith());
+        remoteControllerDto.setOriginalStock(remoteController.getOriginalStock());
 
         return remoteControllerDto;
     }

@@ -1,14 +1,19 @@
 package com.std.springtechdomain.dto;
 
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-
+// This class is necessary for Post and Put methodes
 public class RemoteControllerInputDto {
+    // Valideren van data kan hier geconfigureerd worden
+
+    @NotNull
     public String compatibleWith;
     public String batteryType;
-    @NotNull(message = "Merk is vereist.")
+//    @NotNull(message = "Naam is vereist")
+//    @Size(max = 64)
     public String brand;
-    @Positive
+//    @Positive
     public Double price;
     @Positive
     public Integer originalStock;

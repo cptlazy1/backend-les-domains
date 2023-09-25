@@ -2,7 +2,7 @@ package com.std.springtechdomain.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-
+// This class is necessary for Post and Put methodes
 public class CIModuleInputDto {
     @NotNull(message = "Naam is vereist.")
     public String name;

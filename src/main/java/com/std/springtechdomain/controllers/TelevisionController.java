@@ -46,16 +46,16 @@ public class TelevisionController {
 
     // Maakt een TV aan
     @PostMapping
-    public ResponseEntity<TelevisionDto> createTv(@Valid @RequestBody TelevisionInputDto televisionInputDto) {
+    public ResponseEntity<TelevisionDto> createTv(@Valid @RequestBody TelevisionInputDto dto) {
 
-        TelevisionDto televisionDto = televisionService.createTv(televisionInputDto);
+        TelevisionDto televisionDto = televisionService.createTv(dto);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + televisionDto.id).toUriString());
         return ResponseEntity.created(uri).body(televisionDto);
     }
 
     // Verwijdert een TV
     @DeleteMapping("/{index}")
-    public ResponseEntity<Object> deleteTv(@PathVariable Long index) {
+    public ResponseEntity<Object> deleteTv(@PathVariable("index") Long index) {
         televisionService.deleteTv(index);
         return ResponseEntity.noContent().build();
     }

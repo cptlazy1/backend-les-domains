@@ -20,7 +20,13 @@ public class RemoteController {
     }
 
     // Constructor
-    public RemoteController(Long id, String compatibleWith, String batteryType, String brand, Double price, Integer originalStock) {
+    public RemoteController(
+            Long id,
+            String compatibleWith,
+            String batteryType,
+            String brand,
+            Double price,
+            Integer originalStock) {
         this.id = id;
         this.compatibleWith = compatibleWith;
         this.batteryType = batteryType;
@@ -29,50 +35,48 @@ public class RemoteController {
         this.originalStock = originalStock;
     }
 
-    // Getters
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCompatibleWith() {
         return compatibleWith;
     }
 
-    public String getBatteryType() {
-        return batteryType;
-    }
-
-    public String getBrand() {
-        return brand;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public Integer getOriginalStock() {
-        return originalStock;
-    }
-
-    // Setters
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public void setCompatibleWith(String compatibleWith) {
         this.compatibleWith = compatibleWith;
+    }
+
+    public String getBatteryType() {
+        return batteryType;
     }
 
     public void setBatteryType(String batteryType) {
         this.batteryType = batteryType;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
     public void setBrand(String brand) {
         this.brand = brand;
     }
 
+    public Double getPrice() {
+        return price;
+    }
+
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Integer getOriginalStock() {
+        return originalStock;
     }
 
     public void setOriginalStock(Integer originalStock) {

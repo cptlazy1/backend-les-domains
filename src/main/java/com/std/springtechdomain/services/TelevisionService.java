@@ -16,50 +16,49 @@ import java.util.Optional;
 public class TelevisionService {
     private final TelevisionRepository tvRepository;
 
-
     public TelevisionService(TelevisionRepository repository) {
         this.tvRepository = repository;
     }
 
-    public TelevisionDto createTv(TelevisionInputDto televisionDto) {
+    public TelevisionDto createTv(TelevisionInputDto dto) {
 
-        Television television = convertToTelevision(televisionDto);
+        Television television = convertToTelevision(dto);
 
-        television.setType(televisionDto.type);
-        television.setBrand(televisionDto.brand);
-        television.setName(televisionDto.name);
-        television.setPrice(televisionDto.price);
-        television.setAvailableSize(televisionDto.availableSize);
-        television.setRefreshRate(televisionDto.refreshRate);
-        television.setScreenType(televisionDto.screenType);
-        television.setScreenQuality(televisionDto.screenQuality);
-        television.setSmartTv(televisionDto.smartTv);
-        television.setWifi(televisionDto.wifi);
-        television.setVoiceControl(televisionDto.voiceControl);
-        television.setHdr(televisionDto.hdr);
-        television.setBluetooth(televisionDto.bluetooth);
-        television.setAmbiLight(televisionDto.ambiLight);
-        television.setOriginalStock(televisionDto.originalStock);
-        television.setSold(televisionDto.sold);
+        television.setType(dto.type);
+        television.setBrand(dto.brand);
+        television.setName(dto.name);
+        television.setPrice(dto.price);
+        television.setAvailableSize(dto.availableSize);
+        television.setRefreshRate(dto.refreshRate);
+        television.setScreenType(dto.screenType);
+        television.setScreenQuality(dto.screenQuality);
+        television.setSmartTv(dto.smartTv);
+        television.setWifi(dto.wifi);
+        television.setVoiceControl(dto.voiceControl);
+        television.setHdr(dto.hdr);
+        television.setBluetooth(dto.bluetooth);
+        television.setAmbiLight(dto.ambiLight);
+        television.setOriginalStock(dto.originalStock);
+        television.setSold(dto.sold);
 
         // Na de call hieronder krijgt de television object automatisch een ID(=unieke key).
         // Dat is het effect van "save" actie.
         tvRepository.save(television);
 
-        return convertToDto(television);
+        return convertToTelevisionDto(television);
     }
 
 
-    public List<TelevisionDto> getTvsByBrand(String brand) {
-        List<Television> allTvs = tvRepository.findAllTelevisionsByBrandEqualsIgnoreCase(brand);
-        List<TelevisionDto> allDtos = new ArrayList<>();
-
-        for (Television tv : allTvs) {
-            TelevisionDto dto = convertToDto(tv);
-            allDtos.add(dto);
-        }
-        return allDtos;
-    }
+//    public List<TelevisionDto> getTvsByBrand(String brand) {
+//        List<Television> allTvs = tvRepository.findAllTelevisionsByBrandEqualsIgnoreCase(brand);
+//        List<TelevisionDto> allDtos = new ArrayList<>();
+//
+//        for (Television tv : allTvs) {
+//            TelevisionDto dto = convertToDto(tv);
+//            allDtos.add(dto);
+//        }
+//        return allDtos;
+//    }
 
 
     public List<TelevisionDto> getAllTvs() {
@@ -69,30 +68,8 @@ public class TelevisionService {
 
         for (Television tv : televisions) {
 
-            TelevisionDto tvDto = convertToDto(tv);
+            TelevisionDto tvDto = convertToTelevisionDto(tv);
             televisionDtos.add(tvDto);
-
-            // Dit is allemaal overbodig want er is een convertToDto methode die het regelt.
-            // Ik laat het erin zitten voor leerdoeleinden want het werkt.
-//            tvDto.id = tv.getId();
-//            tvDto.type = tv.getType();
-//            tvDto.brand = tv.getBrand();
-//            tvDto.name = tv.getName();
-//            tvDto.price = tv.getPrice();
-//            tvDto.availableSize = tv.getAvailableSize();
-//            tvDto.refreshRate = tv.getRefreshRate();
-//            tvDto.screenType = tv.getScreenType();
-//            tvDto.screenQuality = tv.getScreenQuality();
-//            tvDto.smartTv = tv.getSmartTv();
-//            tvDto.wifi = tv.getWifi();
-//            tvDto.voiceControl = tv.getVoiceControl();
-//            tvDto.hdr = tv.getHdr();
-//            tvDto.bluetooth = tv.getBluetooth();
-//            tvDto.ambiLight = tv.getAmbiLight();
-//            tvDto.originalStock = tv.getOriginalStock();
-//            tvDto.sold = tv.getSold();
-
-
         }
         return televisionDtos;
     }
@@ -108,7 +85,7 @@ public class TelevisionService {
             throw new RecordNotFoundException("TV not found.");
         } else {
             Television television = tvOptional.get();
-            return convertToDto(television);
+            return convertToTelevisionDto(television);
         }
     }
 
@@ -146,7 +123,7 @@ public class TelevisionService {
             television.setSold(newTelevision.getSold());
 
             Television updatedTelevision = tvRepository.save(television);
-            return convertToDto(updatedTelevision);
+            return convertToTelevisionDto(updatedTelevision);
         }
     }
 
@@ -154,7 +131,9 @@ public class TelevisionService {
     // Return is een Television object. Setters van de Television class
     // krijgen hun parameter via de getters van de TelevisionInputDto class.
     public Television convertToTelevision(TelevisionInputDto dto) {
+
         var television = new Television();
+
         television.setType(dto.getType());
         television.setBrand(dto.getBrand());
         television.setName(dto.getName());
@@ -178,7 +157,7 @@ public class TelevisionService {
     // Hier gaat een Television object in de method als parameter.
     // Return is een Dto object. Setters van de TelevisionDto class
     // krijgen hun parameter via de getters van de Television class.
-    public TelevisionDto convertToDto(Television television) {
+    public TelevisionDto convertToTelevisionDto(Television television) {
 
         TelevisionDto televisionDto = new TelevisionDto();
 

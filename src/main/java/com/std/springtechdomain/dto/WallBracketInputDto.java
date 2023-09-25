@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class WallBracketInputDto {
+    // Valideren van data kan hier geconfigureerd worden
 
     public String size;
     public Boolean adjustable;
