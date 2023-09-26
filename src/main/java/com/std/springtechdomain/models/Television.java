@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 
 @Entity
+@Table(name = "television")
 public class Television {
     // Primary key (ID) wordt gegenereerd
     @Id
@@ -25,6 +26,8 @@ public class Television {
     private Boolean ambiLight;
     private Integer originalStock;
     private Integer sold;
+    @OneToOne(cascade = CascadeType.ALL)
+    private RemoteController remoteController;
 
 
     // Default constructor
@@ -205,5 +208,13 @@ public class Television {
 
     public void setSold(Integer sold) {
         this.sold = sold;
+    }
+
+    public RemoteController getRemoteController() {
+        return remoteController;
+    }
+
+    public void setRemoteController(RemoteController remoteController) {
+        this.remoteController = remoteController;
     }
 }
