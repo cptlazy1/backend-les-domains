@@ -2,11 +2,12 @@ package com.std.springtechdomain.models;
 
 import jakarta.persistence.*;
 
+
 @Entity
 public class Television {
     // Primary key (ID) wordt gegenereerd
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String type;
     private String brand;
@@ -24,6 +25,7 @@ public class Television {
     private Boolean ambiLight;
     private Integer originalStock;
     private Integer sold;
+
 
     // Default constructor
     public Television() {

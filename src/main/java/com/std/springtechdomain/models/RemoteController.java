@@ -1,19 +1,18 @@
 package com.std.springtechdomain.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class RemoteController {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String compatibleWith;
     private String batteryType;
     private String brand;
     private Double price;
     private Integer originalStock;
+
 
     // Default constructor
     public RemoteController() {
